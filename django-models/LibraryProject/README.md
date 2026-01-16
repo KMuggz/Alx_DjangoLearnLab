@@ -1,23 +1,25 @@
-# LibraryProject
+# LibraryProject-(relationship_app addition)
 
-**LibraryProject** is a simple Django web application for managing a library.
-Users can view books, search for them, borrow and return books, and manage library members.
+**Advanced Library Management System**
+An advanced Django-based library management system featuring complex data relationships, custom user roles, and fine-grained permission controls. It builds on the Introduction_to_Django project by using a relationship_app.
 
 ---
 
 ## Features
 
-* View all books in the library
-* Search for books by title or author
-* Borrow and return books
-* Admin panel to add, edit, or remove books and members
+* Custom RBAC (Role-Based Access Control): Implemented distinct user roles (Admin, Librarian, Member) using a UserProfile model and Django signals for automatic profile creation.
+* Granular Permissions: Defined custom model permissions (can_add_book, can_change_book, can_delete_book) and secured views using the @permission_required decorator.
+* Hybrid View Architecture: Balanced the use of Function-Based Views (FBVs) for custom logic and Class-Based Views (CBVs) for standard object details.
+* Production-Ready Database: Migrated from default SQLite to a robust MySQL backend, managing environment variables with python-dotenv.
+* Secure Authentication: Implemented a full auth flow including registration, login, and secure logout (using POST requests as per Django 6.0 standards).
 
 ---
 
 ## Technology Used
 
-* **Backend:** Django
-* **Database:** SQLite (default with Django)
+* **Backend:** Django 6.0.1
+* **Database:** SQLite (default with Django) (I used MySQL 🐬)
+* **Environment Management:** python-dotenv
 * **Frontend:** HTML templates (with optional CSS/Bootstrap)
 
 ---
@@ -38,51 +40,51 @@ git clone https://github.com/yourusername/LibraryProject.git
 cd LibraryProject
 ```````````````````````````
 
-2. **Create a virtual environment**
+2.**Create a virtual environment**
 
 ```bash
-python -m venv env
+python -m venv .venv
 ```````````````````````````
 
-3. **Activate the virtual environment**
+3.**Activate the virtual environment**
 
 * On Windows:
 
 ```bash
-env\Scripts\activate
+.venv\Scripts\activate
 ```````````````````````````
 
 * On Mac/Linux:
 
 ```bash
-source env/bin/activate
+source .venv/bin/activate
 ```````````````````````````
 
-4. **Install dependencies**
+4.**Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```````````````````````````
 
-5. **Apply database migrations**
+5.**Apply database migrations**
 
 ```bash
 python manage.py migrate
 ```````````````````````````
 
-6. **Create a superuser (admin)**
+6.**Create a superuser (admin)**
 
 ```bash
 python manage.py createsuperuser
 ```````````````````````````
 
-7. **Run the development server**
+7.**Run the development server**
 
 ```bash
 python manage.py runserver
 ```````````````````````````
 
-8. **Open in your browser**
+8.**Open in your browser**
    Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
@@ -100,18 +102,31 @@ python manage.py runserver
 
 `````````````````````````````````````````````````````````````````````````````````````````````
 LibraryProject/
-│
-├── library/           # Main Django app
-│   ├── migrations/    # Database migrations
-│   ├── templates/     # HTML templates
-│   ├── models.py      # Database models
-│   ├── views.py       # Logic for web pages
-│   └── urls.py        # Routes for app pages
-├── LibraryProject/    # Project configuration and settings
-├── db.sqlite3         # Default database
-├── manage.py          # Django command-line utility
-└── requirements.txt   # Python dependencies
+├── relationship_app/        # Core logic app
+│   ├── models.py            # RBAC & Book relationships
+│   ├── signals.py           # Auto-profile generation
+│   ├── query_samples.py     # ORM performance testing
+│   ├── templates/           # Namespaced HTML templates
+│   └── views.py             # Role-protected view logic
+├── LibraryProject/          # Main settings & URL routing
+└── manage.py                # Django Command Line Interface
 `````````````````````````````````````````````````````````````````````````````````````````````
+
+---
+
+## Testing the Roles
+
+   Admin: Full access to the /admin/ dashboard and admin_view.
+
+   Librarian: Access to librarian_view and book management (add/edit).
+
+   Member: Access to member_view and standard book listing.
+
+---
+
+## Lessons Learned
+
+During this project, I navigated the complexities of manual path resolution in the Django shell, handled CSRF (Cross-Site Request Forgery) security requirements for authentication, and mastered the logic of decorators to protect sensitive views.
 
 ---
 
