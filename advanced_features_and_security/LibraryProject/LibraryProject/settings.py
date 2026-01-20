@@ -128,6 +128,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# media files (User uploaded content like profile photos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Authentication Redirects
 LOGIN_REDIRECT_URL = 'book_list'
 LOGOUT_REDIRECT_URL = 'book_list'
@@ -140,11 +144,11 @@ X_FRAME_OPTIONS = 'DENY' # protects against clickjacking
 SECURE_CONTENT_TYPE_NOSNIFF = True # prevents MIME sniffing
 
 # Cookie Security (Crucial for HTTPS)
-CSRF_COOKIE_SECURE = False # ensures CSRF cookie is sent via HTTPS only (Set to false for local testing)
-SESSION_COOKIE_SECURE = False # ensures session cookie is sent via HTTPS only (Set to false for local testing)
+CSRF_COOKIE_SECURE = True # ensures CSRF cookie is sent via HTTPS only (Set to false for local testing)
+SESSION_COOKIE_SECURE = True # ensures session cookie is sent via HTTPS only (Set to false for local testing)
 
 # HTTPS and HSTS 
-SECURE_SSL_REDIRECT = False # redirects all HTTP traffic to HTTPS (Set to false for local testing)
+SECURE_SSL_REDIRECT = True # redirects all HTTP traffic to HTTPS (Set to false for local testing)
 SECURE_HSTS_SECONDS = 31536000 # enforce HTTPS for 1 year (HSTS)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
