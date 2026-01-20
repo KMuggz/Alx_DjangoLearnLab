@@ -139,6 +139,7 @@ LOGOUT_REDIRECT_URL = 'book_list'
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 # Browser Protection Headers
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_BROWSER_XSS_FILTER = True  # enables browser XSS filtering
 X_FRAME_OPTIONS = 'DENY' # protects against clickjacking
 SECURE_CONTENT_TYPE_NOSNIFF = True # prevents MIME sniffing
