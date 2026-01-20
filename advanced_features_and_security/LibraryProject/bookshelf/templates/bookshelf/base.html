@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Project{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; line-height: 1.6; }
+        nav { background: #f4f4f4; padding: 10px; margin-bottom: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #333; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'book_list' %}">Home</a>
+        {% if user.is_authenticated %}
+            {% if perms.bookshelf.can_create %}
+                <a href="{% url 'create_book' %}">Add Book</a>
+            {% endif %}
+            <span>Welcome, {{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Advanced Library System</p>
+    </footer>
+</body>
+</html>

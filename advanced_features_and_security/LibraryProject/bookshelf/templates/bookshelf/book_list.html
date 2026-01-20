@@ -1,0 +1,48 @@
+{% extends "bookshelf/base.html" %}
+
+{% block title %}All Books - Library{% endblock %}
+
+{% block content %}
+<h2>Book Inventory</h2>
+
+<table border="1" style="width:100%; border-collapse: collapse; text-align: left;">
+    <thead>
+        <tr style="background-color: #eee;">
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publication_year }}</td>
+            <td>
+                {% if perms.bookshelf.can_view %}
+                    <a href="#">View</a>
+                {% endif %}
+                
+                {% if perms.bookshelf.can_edit %}
+                    | <a href="{% url 'edit_book' book.pk %}">Edit</a>
+                {% endif %}
+                
+                {% if perms.bookshelf.can_delete %}
+                    | <a href="{% url 'delete_book' book.pk %}" style="color: red;">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No books available in the library.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if perms.bookshelf.can_create %}
+    <p><a href="{% url 'create_book' %}">Add a New Book</a></p>
+{% endif %}
+{% endblock %}

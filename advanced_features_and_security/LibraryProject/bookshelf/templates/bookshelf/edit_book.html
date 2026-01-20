@@ -1,0 +1,35 @@
+{% extends "bookshelf/base.html" %}
+
+{% block title %}Edit Book - {{ book.title }}{% endblock %}
+
+{% block content %}
+<h2>Edit Book Details</h2>
+
+<div class="edit-container">
+    <p>You are currently editing: <strong>{{ book.title }}</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <div class="form-actions">
+            <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer;">
+                Update Book
+            </button>
+            <a href="{% url 'book_list' %}" style="margin-left: 15px; text-decoration: none; color: #666;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<hr>
+<section class="danger-zone">
+    <h3>Danger Zone</h3>
+    {% if perms.bookshelf.can_delete %}
+        <p>If you wish to remove this book from the library entirely:</p>
+        <a href="{% url 'delete_book' book.pk %}" style="color: red;">Delete this book</a>
+    {% else %}
+        <p>You do not have permission to delete this record.</p>
+    {% endif %}
+</section>
+{% endblock %}
