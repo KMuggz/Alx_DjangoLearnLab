@@ -125,6 +125,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
     'DEFAULT_PERMISSION_CLASS': [
-        "rest_framework.permissions.IsAutheticated",
+        "rest_framework.permissions.IsAuthenticated",
     ],
 } # This can be done using DRF’s built-in views like obtainauthtoken.
