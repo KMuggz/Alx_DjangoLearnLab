@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'rest_framework',
     'api',
 ]
@@ -117,3 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTIFICATION_CLASSES': [
+        'rest_framework.authentification.TokenAuthentification',
+        'rest_framework.authentification.SessionAuthentification',
+    ],
+}
