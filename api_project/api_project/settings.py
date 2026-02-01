@@ -121,7 +121,7 @@ STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTIFICATION_CLASSES': [
-        'rest_framework.authentification.TokenAuthentification',
-        'rest_framework.authentification.SessionAuthentification',
+        "rest_framework.authentification.TokenAuthentification",
+        "rest_framework.authentification.SessionAuthentification",
     ],
-}
+} # This can be done using DRF’s built-in views like obtainauthtoken.
