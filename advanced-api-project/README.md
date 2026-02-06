@@ -1,8 +1,8 @@
-## Advanced API Project: Book Management System
+# Advanced API Project: Book Management System
 
 This project is a robust Django-based API for managing an inventory of authors and books. It demonstrates advanced concepts in Django REST Framework (DRF), including nested serialization, custom data validation, and granular permission controls.
 
-# Features
+## Features
 
     Nested Relationships: Authors include a list of their related books in their API response.
 
@@ -10,7 +10,7 @@ This project is a robust Django-based API for managing an inventory of authors a
 
     Granular Permissions: Public read-only access with restricted write access for authenticated users.
 
-# API Documentation
+## API Documentation
 Base URL
 
 /api/
@@ -22,10 +22,10 @@ books/create/	POST	Add a new book to the database.	Authenticated
 books/update/<int:pk>/	PUT/PATCH	Update details of an existing book.	Authenticated
 books/delete/<int:pk>/	DELETE	Remove a book from the database.	Authenticated
 
-# View Configuration Details
+## View Configuration Details
 
 All views for the Book model are built using Django REST Framework Generic Views found in api/views.py.
-1. BookListView & BookDetailView
+1. **BookListView & BookDetailView**
 
     Class: ListAPIView and RetrieveAPIView.
 
@@ -33,7 +33,7 @@ All views for the Book model are built using Django REST Framework Generic Views
 
     Permission: IsAuthenticatedOrReadOnly. This ensures that unauthenticated users can still consume the API data without modifying it.
 
-2. BookCreateView
+2. **BookCreateView**
 
     Class: CreateAPIView.
 
@@ -41,7 +41,7 @@ All views for the Book model are built using Django REST Framework Generic Views
 
     Permission: IsAuthenticated. Only registered users can contribute new books.
 
-3. BookUpdateView
+3. **BookUpdateView**
 
     Class: UpdateAPIView.
 
@@ -49,7 +49,7 @@ All views for the Book model are built using Django REST Framework Generic Views
 
     Permission: IsAuthenticated.
 
-4. BookDeleteView
+4. **BookDeleteView**
 
     Class: DestroyAPIView.
 
@@ -57,7 +57,7 @@ All views for the Book model are built using Django REST Framework Generic Views
 
     Permission: IsAuthenticated.
 
-# Installation & Setup
+## Installation & Setup
 
     Clone the repository.
 
