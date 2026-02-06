@@ -13,16 +13,17 @@ This project is a robust Django-based API for managing an inventory of authors a
 ## API Documentation
 Base URL
 
-/api/
+`/api/`
 
-Endpoints
+**Endpoints**
 
-Endpoint | Method | Description | Permissions
-books/ | GET | List all available books. | Public
-books/<int:pk>/ | GET | Retrieve detailed info of a specific book. | Public
-books/create/ | POST | Add a new book to the database. | Authenticated
-books/update/<int:pk>/ | PUT/PATCH | Update details of an existing book. | Authenticated
-books/delete/<int:pk>/ | DELETE | Remove a book from the database. | Authenticated
+| Endpoint | Method | Description | Permissions |
+|:---------|:--------:|:-------------:|-------------:|
+| `books/` | GET | List all available books. | Public |
+| `books/<int:pk>/` | GET | Retrieve detailed info of a specific book. | Public |
+| `books/create/` | POST | Add a new book to the database. | Authenticated |
+| `books/update/<int:pk>/` | PUT / PATCH | Update details of an existing book. | Authenticated |
+| `books/delete/<int:pk>/` | DELETE | Remove a book from the database. | Authenticated |
 
 ## View Configuration Details
 
