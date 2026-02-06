@@ -10,6 +10,8 @@ This project is a robust Django-based API for managing an inventory of authors a
 
     Granular Permissions: Public read-only access with restricted write access for authenticated users.
 
+    Advanced Querying: Users can filter, search, and sort the book collection via URL parameters.
+
 ## API Documentation
 Base URL
 
@@ -25,6 +27,16 @@ Base URL
 | `books/update/<int:pk>/` | PUT / PATCH | Update details of an existing book. | Authenticated |
 | `books/delete/<int:pk>/` | DELETE | Remove a book from the database. | Authenticated |
 
+**Query Parameters (for books/)**
+
+| Parameter | Type | Description | Example|
+|:---------|:--------:|:-------------:|-------------:|
+| `title` | Filter | Exact match for book title. | `?title=1984` |
+| `author` | Filter | Exact match for author ID. | `?author=1` |
+| `publication_year` | Filter | Exact match for year. | `?publication_year=1949` |
+| `search` | Search | Partial match in title or author name. | `?search=George` |
+| `ordering` | Order | Sort by title or publication year (use `-` for descending). | `?ordering=-publication_year` |
+
 ## View Configuration Details
 
 All views for the Book model are built using Django REST Framework Generic Views found in api/views.py.
@@ -33,6 +45,8 @@ All views for the Book model are built using Django REST Framework Generic Views
     Class: ListAPIView and RetrieveAPIView.
 
     Purpose: Provide read-only access to the book collection.
+
+    Advanced Querying: BookListView supports DjangoFilterBackend, SearchFilter, and OrderingFilter.
 
     Permission: IsAuthenticatedOrReadOnly. This ensures that unauthenticated users can still consume the API data without modifying it.
 ~~~
