@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import BookSerializer
+from django_filters import rest_framework
 from rest_framework import generics, filters
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Book
+from .serializers import BookSerializer
+
 
 # Create your views here.
 
@@ -17,7 +17,11 @@ updated with advanced querying:
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter] # define the backends to be used
+    filter_backends = [
+        rest_framework.DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ] # define the backends to be used
     filterset_fields = ['title', 'author', 'publication_year'] # filtering: exact matches for these fields
     search_fields = ['title', 'author__name'] # searching: partial matches for title or related author's name
     ordering_fields = ['title', 'publication_year'] # ordering: allow users to sort by these fields
