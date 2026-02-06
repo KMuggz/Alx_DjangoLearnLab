@@ -84,19 +84,16 @@ All views for the Book model are built using Django REST Framework Generic Views
 
 ## Testing
     The integrity of this API is maintained through a comprehensive suite of unit tests located in api/test_views.py. These tests utilize Django's APITestCase and the reverse utility for dynamic URL resolution.
+
     Coverage Areas:
 
-    **CRUD Operations:**
-    ~~~Verifies that books can be created, retrieved, updated, and deleted.~~~
+    >CRUD Operations: Verifies successful creation, retrieval, modification, and deletion of records.
 
-    **Permissions:**
-    ~~~Ensures that only authenticated users can modify data, while the public can view listings.~~~
+    >Permissions: Ensures that data modification is restricted to authenticated users.
 
-    **Advanced Querying:** 
-    ~~~Tests that the filtering, searching, and ordering parameters return the correct subsets of data.~~~
+    >Advanced Querying: Validates that filtering, searching, and ordering return accurate data subsets.
 
-    **Custom Validation:** 
-    ~~~Confirms that the BookSerializer correctly rejects publication years set in the future.~~~
+    >Custom Validation: Confirms that the API rejects invalid publication years.
 
     **Running the Tests:**
 
