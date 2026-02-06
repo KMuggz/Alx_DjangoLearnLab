@@ -82,11 +82,34 @@ All views for the Book model are built using Django REST Framework Generic Views
     Permission: IsAuthenticated.
 ~~~
 
+## Testing
+    The integrity of this API is maintained through a comprehensive suite of unit tests located in api/test_views.py. These tests utilize Django's APITestCase and the reverse utility for dynamic URL resolution.
+    Coverage Areas:
+
+    **CRUD Operations:**
+    ~~~Verifies that books can be created, retrieved, updated, and deleted.~~~
+
+    **Permissions:**
+    ~~~Ensures that only authenticated users can modify data, while the public can view listings.~~~
+
+    **Advanced Querying:** 
+    ~~~Tests that the filtering, searching, and ordering parameters return the correct subsets of data.~~~
+
+    **Custom Validation:** 
+    ~~~Confirms that the BookSerializer correctly rejects publication years set in the future.~~~
+
+    **Running the Tests:**
+
+    ~~~To execute the test suite, run the following command in your terminal:~~~
+
+    *python manage.py test __api__*
+
+
 ## Installation & Setup
 
     Clone the repository.
 
-    Install dependencies: pip install django djangorestframework.
+    Install dependencies: pip install django djangorestframework django-filter.
 
     Run migrations: python manage.py migrate.
 
