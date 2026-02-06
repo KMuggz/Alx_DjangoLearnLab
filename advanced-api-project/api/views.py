@@ -10,7 +10,7 @@ from .serializers import BookSerializer
 # BookListView: handles GET (all books)
 """
 updated with advanced querying:
-    - Filtering: ?title=Title&author=Name&publication_year=2020
+    - Filtering: ?title=Title&author=Name&publication_year
     - Searching: ?search=keyword (looks in title and author name)
     - Ordering: ?ordering=title or ?ordering=-publication_year
 """
