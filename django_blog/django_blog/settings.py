@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog', # local app
+    'taggit', # addition for search capacity in the blog
 ]
 
 MIDDLEWARE = [
