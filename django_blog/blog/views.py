@@ -8,10 +8,12 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Comment, Post
-from .forms import UserRegisterForm, UserUpdateForm, CommentForm
+from .forms import UserRegisterForm, UserUpdateForm, CommentForm, PostForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Q
+from taggit.models import Tag
 
 # create your views here
 
@@ -54,7 +56,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm # Highlight: Used the custom form class
     template_name = 'blog/post_form.html'
 
     def form_valid(self, form):
@@ -64,7 +66,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm # Highlight: Use the custom form class
     template_name = 'blog/post_form.html'
 
     def form_valid(self, form):
@@ -130,3 +132,26 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+
+# Blog Comment Search & Tag-Filtering views
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        # Highlight: Filters posts by the tag name provided in the URL
+        return Post.objects.filter(tags__name__in=[self.kwargs['tag_slug']])
+
+def search_posts(request):
+    query = request.GET.get('q')
+    if query:
+        # Highlight: Searches title OR content OR tags
+        posts = Post.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.none()
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
