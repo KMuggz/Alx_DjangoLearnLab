@@ -30,9 +30,7 @@ class CommentForm(forms.ModelForm):
         }
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(widget=TagWidget(), required=False) # Highlight: Explicitly declaring the tags field
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags'] # Highlight: Added tags
-        widgets = {
-            'tags': TagWidget(attrs={'placeholder': 'Enter tags separated by commas'}),
-        }
