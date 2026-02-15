@@ -1,5 +1,6 @@
 from django import forms
-from .models import Comment
+from .models import Post, Comment
+from taggit.forms import TagWidget
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -26,4 +27,12 @@ class CommentForm(forms.ModelForm):
                 'rows': 3,
                 'placeholder': 'Add a comment...'
                 }),
+        }
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags'] # Highlight: Added tags
+        widgets = {
+            'tags': TagWidget(attrs={'placeholder': 'Enter tags separated by commas'}),
         }
