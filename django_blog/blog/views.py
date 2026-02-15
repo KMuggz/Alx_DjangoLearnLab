@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView, 
@@ -7,9 +7,10 @@ from django.views.generic import (
     UpdateView, 
     DeleteView
 )
-from .models import Post
-from .forms import UserRegisterForm, UserUpdateForm
+from .models import Comment, Post
+from .forms import UserRegisterForm, UserUpdateForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.contrib import messages
 
 # create your views here
@@ -85,3 +86,47 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # Highlight: Security check to ensure only the author can delete
         post = self.get_object()
         return self.request.user == post.author
+
+# --- Blog Comment CRUD Views ---
+
+# Highlight: View to handle adding a comment
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment_form.html'
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['post'] = get_object_or_404(Post, pk=self.kwargs['pk'])
+            return context
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['pk']})
+
+# Highlight: View to handle editing a comment
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+
+# Highlight: View to handle deleting a comment
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
