@@ -1,20 +1,61 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <article>
-        <h1>{{ object.title }}</h1>
-        <p>Written by {{ object.author }} on {{ object.published_date }}</p>
-        <div>
-            {{ object.content }}
-        </div>
+<article class="post-entry">
+    <h1>{{ object.title }}</h1>
+    <p class="text-muted">By {{ object.author }} | Published: {{ object.published_date|date:"F d, Y" }}</p>
 
-        {% if object.author == user %}
-            <div style="margin-top: 20px;">
-                <a href="{% url 'post-update' object.id %}" style="color: blue;">Edit Post</a> | 
-                <a href="{% url 'post-delete' object.id %}" style="color: red;">Delete Post</a>
-            </div>
-        {% endif %}
-    </article>
-    <hr>
-    <a href="{% url 'post-list' %}">Back to Home</a>
+    <div class="post-content">
+        {{ object.content|linebreaks }}
+    </div>
+
+    {% if object.author == user %}
+        <div style="margin-top: 20px; padding: 10px; background-color: #f8f9fa;">
+            <strong>Author Controls:</strong> 
+            <a href="{% url 'post-update' object.id %}" style="color: blue;">Edit Post</a> | 
+            <a href="{% url 'post-delete' object.id %}" style="color: red;">Delete Post</a>
+        </div>
+    {% endif %}
+</article>
+
+<hr>
+
+<section class="comments-section">
+    <h3>Comments ({{ object.comments.count }})</h3>
+
+    {% if user.is_authenticated %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'add-comment' object.id %}" class="btn-comment">Add a Comment</a>
+        </div>
+    {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to join the conversation.</p>
+    {% endif %}
+
+    {% for comment in object.comments.all %}
+        <div style="border-left: 3px solid #007bff; padding-left: 15px; margin-bottom: 20px; background: #fff;">
+            <p style="margin-bottom: 5px;">
+                <strong>{{ comment.author }}</strong> 
+                <small class="text-muted">on {{ comment.created_at|date:"M d, Y H:i" }}</small>
+                
+                {% if comment.updated_at > comment.created_at %}
+                    <small class="text-muted"><em>(Edited)</em></small>
+                {% endif %}
+            </p>
+            <p>{{ comment.content|linebreaks }}</p>
+
+            {% if comment.author == user %}
+                <div class="comment-actions" style="font-size: 0.85em;">
+                    <a href="{% url 'comment-update' comment.id %}">Edit</a> | 
+                    <a href="{% url 'comment-delete' comment.id %}" style="color: red;">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first to share your thoughts!</p>
+    {% endfor %}
+</section>
+
+<hr>
+<a href="{% url 'post-list' %}">&larr; Back to all posts</a>
+
 {% endblock %}
