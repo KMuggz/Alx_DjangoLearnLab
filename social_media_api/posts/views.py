@@ -43,26 +43,20 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         
-        # Check if the like already exists
-        like_queryset = Like.objects.filter(user=request.user, post=post)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
         
-        if like_queryset.exists():
+        if not created:
             return Response({"message": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Create the like
-        Like.objects.create(user=request.user, post=post)
-        
+
         # Create a notification for the post author
-        # Ensure the recipient is NOT the person liking their own post
-        if post.author != request.user:
-            Notification.objects.create(
-                recipient=post.author,
-                actor=request.user,
-                verb='liked your post',
-                target=post
-            )
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb='liked your post',
+            target=post
+        )
             
         return Response({"message": "Post liked successfully."}, status=status.HTTP_201_CREATED)
 
@@ -70,11 +64,12 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
-        like_queryset = Like.objects.filter(user=request.user, post=post)
+        post = generics.get_object_or_404(Post, pk=pk)
         
-        if like_queryset.exists():
-            like_queryset.delete()
+        like = Like.objects.filter(user=request.user, post=post).first()
+        
+        if like:
+            like.delete()
             return Response({"message": "Post unliked successfully."}, status=status.HTTP_200_OK)
             
         return Response({"message": "You haven't liked this post yet."}, status=status.HTTP_400_BAD_REQUEST)
