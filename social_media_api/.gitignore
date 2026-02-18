@@ -1,4 +1,10 @@
 .env
 __pycache__
+.py[cod]
+$py.class
 migrations
 ca.pem
+.log
+local_settings.py
+staticfiles/
+media/
