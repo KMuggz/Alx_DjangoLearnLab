@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # local app
     'accounts',
     'posts',
+    'notifications',
 ]
 
 MIDDLEWARE = [
