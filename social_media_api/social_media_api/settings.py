@@ -31,7 +31,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = False
 
 # Set Allowed Hosts
 # Strip spaces (in case someone adds spaces in .env)
