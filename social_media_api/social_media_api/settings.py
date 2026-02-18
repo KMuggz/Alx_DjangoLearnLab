@@ -35,8 +35,14 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 # Set Allowed Hosts
 # Strip spaces (in case someone adds spaces in .env)
-ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '.vercel.app,localhost,127.0.0.1').split(',')]
-
+# The leading dot '.' acts as a wildcard for all subdomains of vercel.app
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.vercel.app', 
+    '.now.sh',
+    'socialmedia-co1qc5597-osamabinlaggins-projects.vercel.app' 
+]
 # Security Headers
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -154,8 +160,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
